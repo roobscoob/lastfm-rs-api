@@ -20,7 +20,7 @@ pub struct Page<T> {
 
 #[derive(Clone, Copy)]
 pub struct PaginationConfig {
-    page_size: usize,
+    pub page_size: usize,
 }
 
 impl Default for PaginationConfig {
