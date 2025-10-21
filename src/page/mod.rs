@@ -126,7 +126,11 @@ impl<T: DeserializeOwned> Paginated<T> {
                 let next_page = st.page;
                 st.page += 1;
 
-                st.pg.send_with(next_page).await?;
+                let v = st.pg.send_with(next_page).await?;
+
+                if v.page > v.total_pages {
+                    return Ok(None);
+                }
 
                 Ok(st
                     .pg

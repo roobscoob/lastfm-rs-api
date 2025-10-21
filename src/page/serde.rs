@@ -74,6 +74,22 @@ impl<'de, 'a, T: Deserialize<'de>> DeserializeSeed<'de> for PageSeed<'a, T> {
     }
 }
 
+#[derive(Deserialize)]
+#[serde(untagged)]
+enum OneOrMany<T> {
+    One(T),
+    Many(Vec<T>),
+}
+
+impl<T> OneOrMany<T> {
+    fn into_vec(self) -> Vec<T> {
+        match self {
+            OneOrMany::Many(v) => v,
+            OneOrMany::One(v) => vec![v],
+        }
+    }
+}
+
 impl<'de, 'a, T: Deserialize<'de>> Visitor<'de> for ContentVisitor<'a, T> {
     type Value = super::Page<T>;
 
@@ -90,8 +106,8 @@ impl<'de, 'a, T: Deserialize<'de>> Visitor<'de> for ContentVisitor<'a, T> {
                 let inner: Attributes = map.next_value()?;
                 attr_found = Some(inner);
             } else if key == self.content {
-                let inner: Vec<T> = map.next_value()?;
-                items_found = Some(inner);
+                let inner: OneOrMany<T> = map.next_value()?;
+                items_found = Some(inner.into_vec());
             } else {
                 let _: serde::de::IgnoredAny = map.next_value()?;
             }
