@@ -11,7 +11,7 @@ use serde_with::{DisplayFromStr, TimestampSeconds};
 use crate::types::image::Image;
 
 #[serde_as]
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct User {
     pub name: Arc<str>,
 
@@ -52,7 +52,7 @@ pub struct User {
 }
 
 #[serde_as]
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct Friend {
     pub name: Arc<str>,
 

@@ -10,7 +10,7 @@ use serde_with::serde_as;
 use crate::types::image::Image;
 
 #[serde_as]
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 #[serde()]
 pub struct Track {
     pub artist: TrackArtist,
@@ -38,7 +38,7 @@ pub struct Track {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 #[serde()]
 pub struct TrackArtist {
     #[serde(default)]
@@ -52,7 +52,7 @@ pub struct TrackArtist {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct TrackAlbum {
     #[serde(default, rename = "mbid", deserialize_with = "de_opt_arcstr_empty")]
     pub musicbrainz_id: Option<Arc<str>>,
