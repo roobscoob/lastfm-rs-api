@@ -89,7 +89,11 @@ impl<T: DeserializeOwned> Paginated<T> {
             panic!("Unexpected state");
         }
 
-        self.cache = Some(AllocRingBuffer::from(page.items));
+        if !page.items.len() == 0 {
+            self.cache = Some(AllocRingBuffer::from(page.items));
+        } else {
+            self.cache = Some(AllocRingBuffer::new(1))
+        }
 
         Ok(page.attr)
     }
