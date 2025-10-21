@@ -20,7 +20,7 @@ pub struct GetRecentTracks<'a> {
 }
 
 impl<T: RequestComponent + Enables<ReadPublic>> LastFm<T> {
-    pub async fn user_get_recent_tracks<'a>(&mut self, user: &'a str) -> GetRecentTracks<'a> {
+    pub fn user_get_recent_tracks<'a>(&mut self, user: &'a str) -> GetRecentTracks<'a> {
         GetRecentTracks {
             user,
             from: Default::default(),
