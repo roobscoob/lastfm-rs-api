@@ -89,7 +89,7 @@ impl<T: DeserializeOwned> Paginated<T> {
             panic!("Unexpected state");
         }
 
-        if !page.items.len() == 0 {
+        if page.items.len() != 0 {
             self.cache = Some(AllocRingBuffer::from(page.items));
         } else {
             self.cache = Some(AllocRingBuffer::new(1))
@@ -132,6 +132,7 @@ impl<T: DeserializeOwned> Paginated<T> {
 
                 let v = st.pg.send_with(next_page).await?;
 
+                println!("{:?}", v);
                 if v.page > v.total_pages {
                     return Ok(None);
                 }

@@ -3,7 +3,7 @@ use serde_with::DisplayFromStr;
 use serde_with::serde_as;
 
 #[serde_as]
-#[derive(Deserialize, Clone, Copy)]
+#[derive(Deserialize, Clone, Copy, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Attributes {
     #[serde_as(as = "DisplayFromStr")]
