@@ -30,7 +30,7 @@ pub struct Track {
     #[serde(deserialize_with = "bool_from_strnum")]
     pub loved: bool,
 
-    #[serde(default, deserialize_with = "de_played_at")]
+    #[serde(default, deserialize_with = "de_played_at", rename = "date")]
     pub played_at: Option<DateTime<Utc>>,
 
     #[serde(default, rename = "@attr", deserialize_with = "de_now_playing")]
