@@ -9,7 +9,7 @@ use reqwest::RequestBuilder;
 use ringbuffer::{AllocRingBuffer, RingBuffer};
 
 use crate::{
-    error::LastFmResult,
+    error::{LastFmResult, response::ResponseSeed},
     page::{attributes::Attributes, serde::PageSeed},
 };
 
@@ -83,7 +83,9 @@ impl<T: DeserializeOwned> Paginated<T> {
 
         let mut de = serde_json::Deserializer::from_slice(&bytes);
 
-        let page = PageSeed::<T>::new(&self.root, &self.content).deserialize(&mut de)?;
+        let page = ResponseSeed::new(PageSeed::<T>::new(&self.root, &self.content))
+            .deserialize(&mut de)?
+            .into_result()?;
 
         if self.cache.as_ref().is_some_and(|c| c.len() != 0) {
             panic!("Unexpected state");
